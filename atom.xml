@@ -1,27 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>湖海春回的小屋</title>
   
   
-  <link href="http://example.com/atom.xml" rel="self"/>
+  <link href="https://kimchol0.github.io/atom.xml" rel="self"/>
   
-  <link href="http://example.com/"/>
-  <updated>2020-12-19T13:25:59.150Z</updated>
-  <id>http://example.com/</id>
+  <link href="https://kimchol0.github.io/"/>
+  <updated>2020-12-20T07:09:40.393Z</updated>
+  <id>https://kimchol0.github.io/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>湖海春回</name>
     
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Oracle19c系列之新建scott用户及数据表</title>
+    <link href="https://kimchol0.github.io/2020/12/20/Oracle19c%E7%B3%BB%E5%88%97%E4%B9%8B%E6%96%B0%E5%BB%BAscott%E7%94%A8%E6%88%B7%E5%8F%8A%E6%95%B0%E6%8D%AE%E8%A1%A8/"/>
+    <id>https://kimchol0.github.io/2020/12/20/Oracle19c%E7%B3%BB%E5%88%97%E4%B9%8B%E6%96%B0%E5%BB%BAscott%E7%94%A8%E6%88%B7%E5%8F%8A%E6%95%B0%E6%8D%AE%E8%A1%A8/</id>
+    <published>2020-12-20T07:08:56.000Z</published>
+    <updated>2020-12-20T07:09:40.393Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="使用超级管理员登录"><a href="#使用超级管理员登录" class="headerlink" title="使用超级管理员登录"></a>使用超级管理员登录</h2><p>CONN sys/change_on_install AS SYSDBA ;</p><h2 id="创建c-scott用户"><a href="#创建c-scott用户" class="headerlink" title="创建c##scott用户"></a>创建c##scott用户</h2><p>CREATE USER c##scott IDENTIFIED BY tiger ;|</p><h2 id="为用户授权"><a href="#为用户授权" class="headerlink" title="为用户授权"></a>为用户授权</h2><p>GRANT CONNECT,RESOURCE,UNLIMITED TABLESPACE TO c##scott CONTAINER=ALL ;</p><h2 id="设置用户使用的表空间"><a href="#设置用户使用的表空间" class="headerlink" title="设置用户使用的表空间"></a>设置用户使用的表空间</h2><p>ALTER USER c##scott DEFAULT TABLESPACE USERS;<br>ALTER USER c##scott TEMPORARY TABLESPACE TEMP;</p><h2 id="使用c-scott用户登录"><a href="#使用c-scott用户登录" class="headerlink" title="使用c##scott用户登录"></a>使用c##scott用户登录</h2><p>CONNECT c##scott/tiger</p><h2 id="退出SQL-Plus重新登录一次"><a href="#退出SQL-Plus重新登录一次" class="headerlink" title="退出SQL Plus重新登录一次"></a>退出SQL Plus重新登录一次</h2><h2 id="建议使用sql-devploer-链接scott执行以下脚本。"><a href="#建议使用sql-devploer-链接scott执行以下脚本。" class="headerlink" title="建议使用sql devploer 链接scott执行以下脚本。"></a>建议使用sql devploer 链接scott执行以下脚本。</h2><p>– 创建数据表</p><p>CREATE TABLE dept (</p><pre><code>deptno    NUMBER(2) CONSTRAINT PK_DEPT PRIMARY KEY,dname    VARCHAR2(14) ,loc        VARCHAR2(13)</code></pre><p>) ;</p><p>CREATE TABLE emp (</p><pre><code>empno    NUMBER(4) CONSTRAINT PK_EMP PRIMARY KEY,ename    VARCHAR2(10),job        VARCHAR2(9),mgr        NUMBER(4),hiredate    DATE,sal        NUMBER(7,2),comm    NUMBER(7,2),deptno    NUMBER(2) CONSTRAINT FK_DEPTNO REFERENCES DEPT</code></pre><p>);</p><p>CREATE TABLE bonus (</p><pre><code>enamE    VARCHAR2(10)    ,job        VARCHAR2(9)  ,sal        NUMBER,comm    NUMBER</code></pre><p>) ;</p><p>CREATE TABLE salgrade (</p><pre><code>grade        NUMBER,losal        NUMBER,hisal        NUMBER</code></pre><p>);</p><p>– 插入测试数据 —— dept</p><p>INSERT INTO dept VALUES    (10,’ACCOUNTING’,’NEW YORK’);</p><p>INSERT INTO dept VALUES (20,’RESEARCH’,’DALLAS’);</p><p>INSERT INTO dept VALUES    (30,’SALES’,’CHICAGO’);</p><p>INSERT INTO dept VALUES    (40,’OPERATIONS’,’BOSTON’);</p><p>– 插入测试数据 —— emp</p><p>INSERT INTO emp VALUES (7369,’SMITH’,’CLERK’,7902,to_date(‘17-12-1980’,’dd-mm-yyyy’),800,NULL,20);</p><p>INSERT INTO emp VALUES (7499,’ALLEN’,’SALESMAN’,7698,to_date(‘20-2-1981’,’dd-mm-yyyy’),1600,300,30);</p><p>INSERT INTO emp VALUES (7521,’WARD’,’SALESMAN’,7698,to_date(‘22-2-1981’,’dd-mm-yyyy’),1250,500,30);</p><p>INSERT INTO emp VALUES (7566,’JONES’,’MANAGER’,7839,to_date(‘2-4-1981’,’dd-mm-yyyy’),2975,NULL,20);</p><p>INSERT INTO emp VALUES (7654,’MARTIN’,’SALESMAN’,7698,to_date(‘28-9-1981’,’dd-mm-yyyy’),1250,1400,30);</p><p>INSERT INTO emp VALUES (7698,’BLAKE’,’MANAGER’,7839,to_date(‘1-5-1981’,’dd-mm-yyyy’),2850,NULL,30);</p><p>INSERT INTO emp VALUES (7782,’CLARK’,’MANAGER’,7839,to_date(‘9-6-1981’,’dd-mm-yyyy’),2450,NULL,10);</p><p>INSERT INTO emp VALUES (7788,’SCOTT’,’ANALYST’,7566,to_date(‘13-07-87’,’dd-mm-yyyy’)-85,3000,NULL,20);</p><p>INSERT INTO emp VALUES (7839,’KING’,’PRESIDENT’,NULL,to_date(‘17-11-1981’,’dd-mm-yyyy’),5000,NULL,10);</p><p>INSERT INTO emp VALUES (7844,’TURNER’,’SALESMAN’,7698,to_date(‘8-9-1981’,’dd-mm-yyyy’),1500,0,30);</p><p>INSERT INTO emp VALUES (7876,’ADAMS’,’CLERK’,7788,to_date(‘13-07-87’,’dd-mm-yyyy’)-51,1100,NULL,20);</p><p>INSERT INTO emp VALUES (7900,’JAMES’,’CLERK’,7698,to_date(‘3-12-1981’,’dd-mm-yyyy’),950,NULL,30);</p><p>INSERT INTO emp VALUES (7902,’FORD’,’ANALYST’,7566,to_date(‘3-12-1981’,’dd-mm-yyyy’),3000,NULL,20);</p><p>INSERT INTO emp VALUES (7934,’MILLER’,’CLERK’,7782,to_date(‘23-1-1982’,’dd-mm-yyyy’),1300,NULL,10);</p><p>– 插入测试数据 —— salgrade</p><p>INSERT INTO salgrade VALUES (1,700,1200);</p><p>INSERT INTO salgrade VALUES (2,1201,1400);</p><p>INSERT INTO salgrade VALUES (3,1401,2000);</p><p>INSERT INTO salgrade VALUES (4,2001,3000);</p><p>INSERT INTO salgrade VALUES (5,3001,9999);</p><p>– 事务提交</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;使用超级管理员登录&quot;&gt;&lt;a href=&quot;#使用超级管理员登录&quot; class=&quot;headerlink&quot; title=&quot;使用超级管理员登录&quot;&gt;&lt;/a&gt;使用超级管理员登录&lt;/h2&gt;&lt;p&gt;CONN sys/change_on_install AS SYSDBA ;&lt;/p&gt;</summary>
+      
+    
+    
+    
+    <category term="Oracle" scheme="https://kimchol0.github.io/categories/Oracle/"/>
+    
+    
+    <category term="scott" scheme="https://kimchol0.github.io/tags/scott/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Oracle19c系列之scott用户表对应中文含义</title>
+    <link href="https://kimchol0.github.io/2020/12/20/Oracle19c%E7%B3%BB%E5%88%97%E4%B9%8Bscott%E7%94%A8%E6%88%B7%E8%A1%A8%E5%AF%B9%E5%BA%94%E4%B8%AD%E6%96%87%E5%90%AB%E4%B9%89/"/>
+    <id>https://kimchol0.github.io/2020/12/20/Oracle19c%E7%B3%BB%E5%88%97%E4%B9%8Bscott%E7%94%A8%E6%88%B7%E8%A1%A8%E5%AF%B9%E5%BA%94%E4%B8%AD%E6%96%87%E5%90%AB%E4%B9%89/</id>
+    <published>2020-12-20T07:07:47.000Z</published>
+    <updated>2020-12-20T07:15:35.651Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="EMP表"><a href="#EMP表" class="headerlink" title="EMP表"></a>EMP表</h2><table><thead><tr><th>字段</th><th>中文</th></tr></thead><tbody><tr><td>EMPNO</td><td>员工编号</td></tr><tr><td>ENAME</td><td>员工姓名</td></tr><tr><td>JOB</td><td>工作（职位）</td></tr><tr><td>MGR</td><td>上级领导编号</td></tr><tr><td>HIREDATE</td><td>入职日期</td></tr><tr><td>SAL</td><td>工资</td></tr><tr><td>COMM</td><td>奖金</td></tr><tr><td>DEPTNO</td><td>部门编号</td></tr></tbody></table><h2 id="DEPT表"><a href="#DEPT表" class="headerlink" title="DEPT表"></a>DEPT表</h2><table><thead><tr><th>字段</th><th>中文</th></tr></thead><tbody><tr><td>DEPTNO</td><td>部门编号</td></tr><tr><td>DNAME</td><td>部门名称</td></tr><tr><td>LOC</td><td>部门所在地</td></tr></tbody></table><h2 id="SALGRADE表"><a href="#SALGRADE表" class="headerlink" title="SALGRADE表"></a>SALGRADE表</h2><table><thead><tr><th>字段</th><th>中文</th></tr></thead><tbody><tr><td>GRADE</td><td>等级</td></tr><tr><td>LOSAL</td><td>最低工资</td></tr><tr><td>HISAL</td><td>最高工资</td></tr></tbody></table><h2 id="BONUS表"><a href="#BONUS表" class="headerlink" title="BONUS表"></a>BONUS表</h2><table><thead><tr><th>字段</th><th>中文</th></tr></thead><tbody><tr><td>ENAME</td><td>员工姓名</td></tr><tr><td>JOB</td><td>工作（职位）</td></tr><tr><td>SAL</td><td>工资</td></tr><tr><td>COMM</td><td>奖金</td></tr></tbody></table>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;EMP表&quot;&gt;&lt;a href=&quot;#EMP表&quot; class=&quot;headerlink&quot; title=&quot;EMP表&quot;&gt;&lt;/a&gt;EMP表&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;字段&lt;/th&gt;
+&lt;th&gt;中文&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbod</summary>
+      
+    
+    
+    
+    <category term="Oracle" scheme="https://kimchol0.github.io/categories/Oracle/"/>
+    
+    
+    <category term="scott" scheme="https://kimchol0.github.io/tags/scott/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>建立hexo博客步骤</title>
+    <link href="https://kimchol0.github.io/2020/12/20/%E5%BB%BA%E7%AB%8Bhexo%E5%8D%9A%E5%AE%A2%E6%AD%A5%E9%AA%A4/"/>
+    <id>https://kimchol0.github.io/2020/12/20/%E5%BB%BA%E7%AB%8Bhexo%E5%8D%9A%E5%AE%A2%E6%AD%A5%E9%AA%A4/</id>
+    <published>2020-12-20T06:56:20.000Z</published>
+    <updated>2020-12-20T07:17:55.104Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="打开cmd，换阿里源"><a href="#打开cmd，换阿里源" class="headerlink" title="打开cmd，换阿里源"></a>打开cmd，换阿里源</h2><p>npm config set registry <a href="https://registry.npm.taobao.org/">https://registry.npm.taobao.org/</a></p><h2 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h2><p>npm install -g hexo-cli</p><h2 id="在指定文件夹中新建所需要的文件"><a href="#在指定文件夹中新建所需要的文件" class="headerlink" title="在指定文件夹中新建所需要的文件"></a>在指定文件夹中新建所需要的文件</h2><p>hexo init 文件夹名字<br>cd 文件夹名字<br>npm install</p><h2 id="更改主题文件配置，将主题改为想要设置的主题"><a href="#更改主题文件配置，将主题改为想要设置的主题" class="headerlink" title="更改主题文件配置，将主题改为想要设置的主题"></a>更改主题文件配置，将主题改为想要设置的主题</h2><p>theme: hexo-theme-butterfly</p><h2 id="安装-hexo-deployer-git"><a href="#安装-hexo-deployer-git" class="headerlink" title="安装 hexo-deployer-git"></a>安装 hexo-deployer-git</h2><p>npm install hexo-deployer-git –save</p><h2 id="新建文章"><a href="#新建文章" class="headerlink" title="新建文章"></a>新建文章</h2><p>hexo n 文章名字</p><h2 id="本地预览"><a href="#本地预览" class="headerlink" title="本地预览"></a>本地预览</h2><p>hexo clean&amp;&amp;hexo g&amp;&amp;hexo s</p><h2 id="本地运行若报错，则输入以下代码"><a href="#本地运行若报错，则输入以下代码" class="headerlink" title="本地运行若报错，则输入以下代码"></a>本地运行若报错，则输入以下代码</h2><p>npm install –save hexo-renderer-jade hexo-generator-feed hexo-generator-sitemap hexo-browsersync hexo-generator-archive</p><h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>hexo c&amp;&amp;hexo g&amp;&amp;hexo d</p><h2 id="完毕"><a href="#完毕" class="headerlink" title="完毕"></a>完毕</h2>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;打开cmd，换阿里源&quot;&gt;&lt;a href=&quot;#打开cmd，换阿里源&quot; class=&quot;headerlink&quot; title=&quot;打开cmd，换阿里源&quot;&gt;&lt;/a&gt;打开cmd，换阿里源&lt;/h2&gt;&lt;p&gt;npm config set registry &lt;a href=&quot;https</summary>
+      
+    
+    
+    
+    <category term="备忘" scheme="https://kimchol0.github.io/categories/%E5%A4%87%E5%BF%98/"/>
+    
+    
+    <category term="步骤" scheme="https://kimchol0.github.io/tags/%E6%AD%A5%E9%AA%A4/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hello World</title>
-    <link href="http://example.com/2020/12/19/hello-world/"/>
-    <id>http://example.com/2020/12/19/hello-world/</id>
+    <link href="https://kimchol0.github.io/2020/12/19/hello-world/"/>
+    <id>https://kimchol0.github.io/2020/12/19/hello-world/</id>
     <published>2020-12-19T13:25:59.150Z</published>
-    <updated>2020-12-19T13:25:59.150Z</updated>
+    <updated>2020-12-20T06:51:33.514Z</updated>
     
     <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
     
